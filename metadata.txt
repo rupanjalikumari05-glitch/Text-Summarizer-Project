@@ -1,0 +1,35 @@
+1. Learning Outcome:
+   - Master the end-to-end Machine Learning project lifecycle for Natural Language Processing (NLP), from data ingestion to cloud deployment.
+   - Understand how to fine-tune state-of-the-art transformer models (Pegasus) on custom datasets for abstractive text summarization.
+   - Implement modular and scalable ML pipelines using object-oriented programming (OOP) principles.
+   - Gain experience building RESTful web applications with FastAPI for serving ML model predictions.
+   - Develop and deploy Dockerized NLP applications on AWS cloud infrastructure.
+   - Build a fully automated CI/CD pipeline using GitHub Actions for continuous integration and continuous deployment.
+   - Evaluate text summarization model performance using standard NLP metrics like ROUGE scores.
+
+2. What you will build:
+   - An "AI-Powered Content Summarization System" capable of generating concise abstractive summaries from long-form text or dialogue.
+   - A fine-tuned Google Pegasus model trained on the SAMSum dataset with optimized inference parameters.
+   - A robust 5-stage machine learning pipeline consisting of Data Ingestion, Validation, Transformation, Model Training, and Evaluation.
+   - A FastAPI-based backend API that accepts input text, triggers model predictions, and returns high-quality summaries.
+   - A fully automated CI/CD pipeline that builds Docker images and deploys the summarization application on AWS cloud servers.
+
+3. Prerequisite:
+   - Proficiency in Python programming.
+   - Basic understanding of Deep Learning and Natural Language Processing (NLP) concepts.
+   - Familiarity with Hugging Face Transformers and Datasets libraries.
+   - Basic knowledge of REST APIs and Docker containerization.
+   - An AWS account for cloud deployment (EC2/ECR).
+
+4. Technologies:
+   - Programming Language: Python
+   - Deep Learning Framework: PyTorch
+   - NLP Toolkit: Hugging Face Transformers, Datasets
+   - Base Model: google/pegasus-cnn_dailymail
+   - Web Framework: FastAPI, Uvicorn
+   - Evaluation Metrics: ROUGE (rouge-score)
+   - Containerization: Docker
+   - Cloud Platform: AWS (EC2, ECR)
+   - CI/CD: GitHub Actions
+   - Configuration Management: PyYAML, python-box
+   - Environment Management: pip, setuptools
