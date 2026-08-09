@@ -31,13 +31,13 @@ async def training():
 
 
 @app.post("/predict")
-async def predict_route(text):
+async def predict_route(text: str):
     try:
-
         obj = PredictionPipeline()
-        text = obj.predict(text)
-        return text
+        result = obj.predict(text)
+        return {"summary": result}
     except Exception as e:
+        print("PREDICTION ERROR:", repr(e))
         raise e
     
 
