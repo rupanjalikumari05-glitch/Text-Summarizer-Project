@@ -161,3 +161,9 @@ cython_debug/
 artifacts/*
 .vscode/
 
+# Local model and training files
+research/pegasus-samsum-model/
+research/pegasus-samsum/
+samsum_dataset/
+samsum-*.csv
+summarizer-data.zip
