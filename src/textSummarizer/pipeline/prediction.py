@@ -10,11 +10,13 @@ class PredictionPipeline:
     def predict(self, text):
 
         tokenizer = AutoTokenizer.from_pretrained(
-            self.config.tokenizer_path
+            self.config.tokenizer_path,
+            subfolder="pegasus-samsum-model"
         )
 
         model = AutoModelForSeq2SeqLM.from_pretrained(
-            self.config.model_path
+            self.config.model_path,
+            subfolder="pegasus-samsum-model"
         )
 
         inputs = tokenizer(
