@@ -1,49 +1,56 @@
-from fastapi import FastAPI
-import uvicorn
-import sys
-import os
-from fastapi.templating import Jinja2Templates
-from starlette.responses import RedirectResponse
-from fastapi.responses import Response
-from textSummarizer.pipeline.prediction import PredictionPipeline
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 
-text:str = "What is Text Summarization?"
+class PredictionPipeline:
 
-app = FastAPI()
+    def __init__(self):
 
-@app.get("/", tags=["authentication"])
-async def index():
-    return RedirectResponse(url="/docs")
+        self.model_name = "Rupa-136/pegasus-samsum-model"
+        self.subfolder = "pegasus-samsum-model"
 
+        print("Loading Pegasus tokenizer...")
 
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            self.model_name,
+            subfolder=self.subfolder
+        )
 
-@app.get("/train")
-async def training():
-    try:
-        os.system("python main.py")
-        return Response("Training successful !!")
+        print("Loading Pegasus model...")
 
-    except Exception as e:
-        return Response(f"Error Occurred! {e}")
-    
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(
+            self.model_name,
+            subfolder=self.subfolder
+        )
 
+        print("Pegasus model loaded successfully!")
 
+    def predict(self, text):
 
-@app.post("/predict")
-async def predict_route(text: str):
-    try:
-        obj = PredictionPipeline()
-        result = obj.predict(text)
-        return {"summary": result}
-    except Exception as e:
-        print("PREDICTION ERROR:", repr(e))
-        raise e
-    
+        inputs = self.tokenizer(
+            text,
+            return_tensors="pt",
+            max_length=1024,
+            truncation=True
+        )
 
-if __name__ == "__main__":
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 8080))
-    )
+        summary_ids = self.model.generate(
+            input_ids=inputs["input_ids"],
+            attention_mask=inputs["attention_mask"],
+            num_beams=8,
+            max_length=128,
+            length_penalty=0.8,
+            early_stopping=True
+        )
+
+        output = self.tokenizer.decode(
+            summary_ids[0],
+            skip_special_tokens=True
+        )
+
+        print("Dialogue:")
+        print(text)
+
+        print("\nModel Summary:")
+        print(output)
+
+        return output

@@ -1,32 +1,39 @@
-from textSummarizer.config.configuration import ConfigurationManager
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 
 class PredictionPipeline:
 
     def __init__(self):
-        self.config = ConfigurationManager().get_model_evaluation_config()
+
+        self.model_name = "Rupa-136/pegasus-samsum-model"
+        self.subfolder = "pegasus-samsum-model"
+
+        print("Loading Pegasus tokenizer...")
+
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            self.model_name,
+            subfolder=self.subfolder
+        )
+
+        print("Loading Pegasus model...")
+
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(
+            self.model_name,
+            subfolder=self.subfolder
+        )
+
+        print("Pegasus model loaded successfully!")
 
     def predict(self, text):
 
-        tokenizer = AutoTokenizer.from_pretrained(
-            self.config.tokenizer_path,
-            subfolder="pegasus-samsum-model"
-        )
-
-        model = AutoModelForSeq2SeqLM.from_pretrained(
-            self.config.model_path,
-            subfolder="pegasus-samsum-model"
-        )
-
-        inputs = tokenizer(
+        inputs = self.tokenizer(
             text,
             return_tensors="pt",
             max_length=1024,
             truncation=True
         )
 
-        summary_ids = model.generate(
+        summary_ids = self.model.generate(
             input_ids=inputs["input_ids"],
             attention_mask=inputs["attention_mask"],
             num_beams=8,
@@ -35,7 +42,7 @@ class PredictionPipeline:
             early_stopping=True
         )
 
-        output = tokenizer.decode(
+        output = self.tokenizer.decode(
             summary_ids[0],
             skip_special_tokens=True
         )
