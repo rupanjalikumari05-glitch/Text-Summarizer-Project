@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, "src")
+
 from fastapi import FastAPI
 import uvicorn
 import sys
@@ -41,5 +44,6 @@ async def predict_route(text):
         raise e
     
 
-if __name__=="__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
